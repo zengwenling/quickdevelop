@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.dkhs.commonlib.ui.BaseDKHSActivity;
 import com.dynamic.it.IDynamic;
+import com.example.dkhs.ParamType;
 import com.example.dkhs.R;
 import com.example.dkhs.bean.iface.Buy;
 import com.example.dkhs.bean.User;
@@ -40,6 +41,7 @@ import java.io.File;
 import java.lang.reflect.Proxy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -77,6 +79,9 @@ public class MainActivity extends BaseDKHSActivity implements View.OnClickListen
         btn_call.setOnClickListener(this);
         Button btn_jxjava = (Button) findViewById(R.id.btn_jxjava);
         btn_jxjava.setOnClickListener(this);
+
+        Button btn_dagger2 = (Button) findViewById(R.id.btn_dagger2);
+        btn_dagger2.setOnClickListener(this);
         Log.e(TAG, "button:" + btn_call.getClass().getName());
         User user = new User();
         Buy userProxy = (Buy) Proxy.newProxyInstance(User.class.getClassLoader(), User.class.getInterfaces(), new UserDynamicProxy(user));
@@ -85,6 +90,12 @@ public class MainActivity extends BaseDKHSActivity implements View.OnClickListen
         iv_photo = (ImageView) findViewById(R.id.iv_photo);
         Glide.with(this).load(url).into(iv_photo);
         testClassLoaderName();
+        Log.e("ljj", "path:" + Environment.getExternalStorageDirectory());
+        new ParamType<String>() {
+        }.logParamType();
+        new ParamType<List<String>>() {
+        };
+
     }
 
     private void testClassLoaderName() {
@@ -122,13 +133,16 @@ public class MainActivity extends BaseDKHSActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        int id=view.getId();
-        switch (id){
+        int id = view.getId();
+        switch (id) {
             case R.id.btn_call:
                 multiThreadDemo();
                 break;
             case R.id.btn_jxjava:
-                startActivity(new Intent(this,RxjavaActivity.class));
+                startActivity(new Intent(this, RxjavaActivity.class));
+                break;
+            case R.id.btn_dagger2:
+                startActivity(new Intent(this, DaggerActivity.class));
                 break;
         }
     }

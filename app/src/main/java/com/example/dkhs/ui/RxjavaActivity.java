@@ -16,6 +16,7 @@ import com.example.dkhs.com.net.apiservice.DkhsApiService;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -52,23 +53,23 @@ public class RxjavaActivity extends BaseDKHSActivity {
 
     public void testRetrofit() {
         DkhsApiService service = RetrofitManager.getInstance().getRetrofit().create(DkhsApiService.class);
-        Observable<AdsEntity> observable = service.getAdsModel("splash");
+        Observable<List<AdsEntity>> observable = service.getAdsModel("splash");
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AdsEntity>() {
+                .subscribe(new Observer<List<AdsEntity>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         Log.e("ljj","onSubscribe");
                     }
 
                     @Override
-                    public void onNext(@NonNull AdsEntity adsEntity) {
+                    public void onNext(@NonNull List<AdsEntity> adsEntity) {
                         Log.e("ljj","onNext");
-                        Toast.makeText(RxjavaActivity.this, adsEntity.getDescription(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(RxjavaActivity.this, adsEntity.getDescription(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.e("ljj","onError"+e.getMessage());
+                        Log.e("ljj","onError"+e.toString());
                     }
 
                     @Override
